@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-class LexerTest {
+class LexerTests {
     @Test
-    void getLexemePositiveInputTest() throws IOException, LexerParsingException {
-        ArrayList<Lexeme> lexemesExpected = new ArrayList<>();
+    void getLexemePositiveInputTest() throws IOException, ParsingException {
+        var lexemesExpected = new ArrayList<Lexeme>();
         lexemesExpected.add(new Lexeme(LexemeType.PLUS, "+"));
         lexemesExpected.add(new Lexeme(LexemeType.MINUS, "-"));
         lexemesExpected.add(new Lexeme(LexemeType.MULTIPLY, "*"));
@@ -32,15 +32,15 @@ class LexerTest {
 
         lexemesExpected.add(new Lexeme(LexemeType.EOF, "EOF"));
 
-        StringBuilder stringBuilder = new StringBuilder();
+        var stringBuilder = new StringBuilder();
         for (int i = 0; i < lexemesExpected.size() - 1; i++) {
             stringBuilder.append(" ".repeat(5));
             stringBuilder.append(lexemesExpected.get(i).text);
             stringBuilder.append(" ".repeat(5));
         }
-        Lexer lexer = new Lexer(new ByteArrayInputStream(stringBuilder.toString().getBytes(StandardCharsets.UTF_8)));
+        var lexer = new Lexer(new ByteArrayInputStream(stringBuilder.toString().getBytes(StandardCharsets.UTF_8)));
 
-        ArrayList<Lexeme> lexemesActual = new ArrayList<>();
+        var lexemesActual = new ArrayList<Lexeme>();
         Lexeme current;
         do {
             current = lexer.getLexeme();
@@ -50,14 +50,14 @@ class LexerTest {
         assert lexemesActual.size() == lexemesExpected.size();
 
         for(int i = 0; i < lexemesExpected.size(); i++) {
-            Lexeme lexemeExpected = lexemesExpected.get(i);
-            Lexeme lexemeActual = lexemesActual.get(i);
+            var lexemeExpected = lexemesExpected.get(i);
+            var lexemeActual = lexemesActual.get(i);
             assert lexemeActual.type.equals(lexemeExpected.type);
             assert lexemeActual.text.equals(lexemeExpected.text);
         }
 
         for(int i = 0; i < 255; i++) {
-            Lexeme lexeme = lexer.getLexeme();
+            var lexeme = lexer.getLexeme();
             assert lexeme.type.equals(LexemeType.EOF);
             assert lexeme.text.equals("EOF");
         }
@@ -65,14 +65,14 @@ class LexerTest {
 
     @Test
     void getLexemeBadSymbolTest() throws IOException {
-        Lexer lexer = new Lexer(new ByteArrayInputStream("2 + 2a".getBytes(StandardCharsets.UTF_8)));
+        var lexer = new Lexer(new ByteArrayInputStream("2 + 2a".getBytes(StandardCharsets.UTF_8)));
         try {
             lexer.getLexeme();
             lexer.getLexeme();
             lexer.getLexeme();
         }
-        catch (LexerParsingException e) {
-            assert e.getMessage().equals("Unexpected character 'a'");
+        catch (ParsingException e) {
+            assert e.getType().equals(ParsingExceptionType.UNEXPECTED_CHARACTER);
         }
     }
 }

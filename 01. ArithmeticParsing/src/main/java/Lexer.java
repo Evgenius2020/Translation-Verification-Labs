@@ -5,7 +5,7 @@ public class Lexer {
     private InputStream stream;
     private int current;
 
-    public  Lexer(InputStream stream) throws IOException {
+    public Lexer(InputStream stream) throws IOException {
         this.stream = stream;
         this.current = stream.read();
     }
@@ -16,11 +16,10 @@ public class Lexer {
         return current;
     }
 
-    public Lexeme getLexeme() throws IOException, LexerParsingException {
-        int current;
-        do
-            current = getCurrentAndUpdate();
-        while(current == ' ');
+    public Lexeme getLexeme() throws IOException, ParsingException {
+        while(current == ' ')
+            getCurrentAndUpdate();
+        int current = getCurrentAndUpdate();
 
         if (current == -1)
             return new Lexeme(LexemeType.EOF, "EOF");
@@ -47,6 +46,7 @@ public class Lexer {
             return new Lexeme(LexemeType.NUMBER, value.toString());
         }
         else
-            throw new LexerParsingException(String.format("Unexpected character '%c'", current));
+            throw new ParsingException(
+                    ParsingExceptionType.UNEXPECTED_CHARACTER, String.format("Unexpected character '%c'", current));
     }
 }
