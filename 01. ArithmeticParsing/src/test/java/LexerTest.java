@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 class LexerTest {
-
     @Test
     void getLexemePositiveInputTest() throws IOException, LexerParsingException {
         ArrayList<Lexeme> lexemesExpected = new ArrayList<>();
@@ -61,6 +60,19 @@ class LexerTest {
             Lexeme lexeme = lexer.getLexeme();
             assert lexeme.type.equals(LexemeType.EOF);
             assert lexeme.text.equals("EOF");
+        }
+    }
+
+    @Test
+    void getLexemeBadSymbolTest() throws IOException {
+        Lexer lexer = new Lexer(new ByteArrayInputStream("2 + 2a".getBytes(StandardCharsets.UTF_8)));
+        try {
+            lexer.getLexeme();
+            lexer.getLexeme();
+            lexer.getLexeme();
+        }
+        catch (LexerParsingException e) {
+            assert e.getMessage().equals("Unexpected character 'a'");
         }
     }
 }
