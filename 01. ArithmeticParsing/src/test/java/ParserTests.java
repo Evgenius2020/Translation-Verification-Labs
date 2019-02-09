@@ -28,6 +28,32 @@ class ParserTests {
         lexer = new Lexer(new ByteArrayInputStream("-2 + 2 + (-2 - -2)".getBytes()));
         parser = new Parser(lexer);
         assert 0 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("(-2 + 4)^(7 + 3 - 5)".getBytes()));
+        parser = new Parser(lexer);
+        assert 32 == parser.parseExpr();
+    }
+
+    @Test
+    void parseFactor() throws IOException, ParsingException {
+        Lexer lexer;
+        Parser parser;
+
+        lexer = new Lexer(new ByteArrayInputStream("2".getBytes()));
+        parser = new Parser(lexer);
+        assert 2 == parser.parseFactor();
+
+        lexer = new Lexer(new ByteArrayInputStream("2^2^2".getBytes()));
+        parser = new Parser(lexer);
+        assert 16 == parser.parseFactor();
+
+        lexer = new Lexer(new ByteArrayInputStream("2^-1".getBytes()));
+        parser = new Parser(lexer);
+        assert 0 == parser.parseFactor();
+
+        lexer = new Lexer(new ByteArrayInputStream("2^0".getBytes()));
+        parser = new Parser(lexer);
+        assert 1 == parser.parseFactor();
     }
 
     @Test

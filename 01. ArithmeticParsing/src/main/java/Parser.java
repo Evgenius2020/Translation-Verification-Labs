@@ -16,23 +16,33 @@ class Parser {
     }
 
     long parseExpr() throws IOException, ParsingException {
-        long temp = parsePower();
+        long temp = parseFactor();
         while ((current.type == LexemeType.PLUS) || (current.type == LexemeType.MINUS)) {
             var current = getCurrentAndUpdate();
             if (current.type == LexemeType.PLUS)
-                temp += parsePower();
+                temp += parseFactor();
             else
-                temp -= parsePower();
+                temp -= parseFactor();
         }
         return temp;
     }
 
-    long parsePower() throws IOException, ParsingException {
-        if (current.type != LexemeType.MINUS)
-            return parseAtom();
+    long parseFactor() throws IOException, ParsingException {
+        long power = parsePower();
+        if (current.type == LexemeType.POWER) {
+            getCurrentAndUpdate();
+            power = (long)Math.pow(power, parseFactor());
+        }
 
-        getCurrentAndUpdate();
-        return -parseAtom();
+        return power;
+    }
+
+    long parsePower() throws IOException, ParsingException {
+        if (current.type == LexemeType.MINUS) {
+            getCurrentAndUpdate();
+            return -parseAtom();
+        }
+        return parseAtom();
     }
 
     long parseAtom() throws IOException, ParsingException {
