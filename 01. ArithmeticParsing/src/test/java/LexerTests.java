@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 class LexerTests {
@@ -38,7 +37,7 @@ class LexerTests {
             stringBuilder.append(lexemesExpected.get(i).text);
             stringBuilder.append(" ".repeat(5));
         }
-        var lexer = new Lexer(new ByteArrayInputStream(stringBuilder.toString().getBytes(StandardCharsets.UTF_8)));
+        var lexer = new Lexer(new ByteArrayInputStream(stringBuilder.toString().getBytes()));
 
         var lexemesActual = new ArrayList<Lexeme>();
         Lexeme current;
@@ -65,7 +64,7 @@ class LexerTests {
 
     @Test
     void getLexemeBadSymbolTest() throws IOException {
-        var lexer = new Lexer(new ByteArrayInputStream("2 + 2a".getBytes(StandardCharsets.UTF_8)));
+        var lexer = new Lexer(new ByteArrayInputStream("2 + 2a".getBytes()));
         try {
             lexer.getLexeme();
             lexer.getLexeme();

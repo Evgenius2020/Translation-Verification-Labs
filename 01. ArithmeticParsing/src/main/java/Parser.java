@@ -16,15 +16,23 @@ class Parser {
     }
 
     long parseExpr() throws IOException, ParsingException {
-        long temp = parseAtom();
+        long temp = parsePower();
         while ((current.type == LexemeType.PLUS) || (current.type == LexemeType.MINUS)) {
             var current = getCurrentAndUpdate();
             if (current.type == LexemeType.PLUS)
-                temp += parseAtom();
+                temp += parsePower();
             else
-                temp -= parseAtom();
+                temp -= parsePower();
         }
         return temp;
+    }
+
+    long parsePower() throws IOException, ParsingException {
+        if (current.type != LexemeType.MINUS)
+            return parseAtom();
+
+        getCurrentAndUpdate();
+        return -parseAtom();
     }
 
     long parseAtom() throws IOException, ParsingException {
