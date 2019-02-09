@@ -1,8 +1,8 @@
-public class Lexeme {
-    LexemeType type;
-    String text;
+class Lexeme {
+    final LexemeType type;
+    final String text;
 
-    public Lexeme(LexemeType type, String text) {
+    Lexeme(LexemeType type, String text) {
         this.type = type;
         this.text = text;
     }

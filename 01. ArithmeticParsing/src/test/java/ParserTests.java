@@ -4,14 +4,27 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ParserTests {
     @Test
     void parseExpr() throws IOException, ParsingException {
-        Lexer lexer = new Lexer(new ByteArrayInputStream("2 + 2 - 2".getBytes(StandardCharsets.UTF_8)));
-        Parser parser = new Parser(lexer);
+        Lexer lexer;
+        Parser parser;
+
+        lexer = new Lexer(new ByteArrayInputStream("2 + 2 - 2".getBytes(StandardCharsets.UTF_8)));
+        parser = new Parser(lexer);
         assert 2 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("2 + 2 - 2 + (2 + 2 - 2)".getBytes(StandardCharsets.UTF_8)));
+        parser = new Parser(lexer);
+        assert 4 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("(2)(2)".getBytes(StandardCharsets.UTF_8)));
+        parser = new Parser(lexer);
+        try {
+            parser.parseAtom();
+        } catch (ParsingException e) {
+            assert e.getType().equals(ParsingExceptionType.UNEXPECTED_LEXEME);
+        }
     }
 
     @Test
@@ -28,9 +41,20 @@ class ParserTests {
         parser = new Parser(lexer);
         try {
             parser.parseAtom();
-        }
-        catch (ParsingException e) {
+        } catch (ParsingException e) {
             assert e.getType().equals(ParsingExceptionType.LONG_NUMBER);
+        }
+
+        lexer = new Lexer(new ByteArrayInputStream("(2)".getBytes(StandardCharsets.UTF_8)));
+        parser = new Parser(lexer);
+        assert 2 == parser.parseAtom();
+
+        lexer = new Lexer(new ByteArrayInputStream("(2())".getBytes(StandardCharsets.UTF_8)));
+        parser = new Parser(lexer);
+        try {
+            parser.parseAtom();
+        } catch (ParsingException e) {
+            assert e.getType().equals(ParsingExceptionType.UNEXPECTED_LEXEME);
         }
     }
 }

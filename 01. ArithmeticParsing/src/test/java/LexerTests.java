@@ -45,18 +45,18 @@ class LexerTests {
         do {
             current = lexer.getLexeme();
             lexemesActual.add(current);
-        } while(current.type != LexemeType.EOF);
+        } while (current.type != LexemeType.EOF);
 
         assert lexemesActual.size() == lexemesExpected.size();
 
-        for(int i = 0; i < lexemesExpected.size(); i++) {
+        for (int i = 0; i < lexemesExpected.size(); i++) {
             var lexemeExpected = lexemesExpected.get(i);
             var lexemeActual = lexemesActual.get(i);
             assert lexemeActual.type.equals(lexemeExpected.type);
             assert lexemeActual.text.equals(lexemeExpected.text);
         }
 
-        for(int i = 0; i < 255; i++) {
+        for (int i = 0; i < 255; i++) {
             var lexeme = lexer.getLexeme();
             assert lexeme.type.equals(LexemeType.EOF);
             assert lexeme.text.equals("EOF");
@@ -70,8 +70,7 @@ class LexerTests {
             lexer.getLexeme();
             lexer.getLexeme();
             lexer.getLexeme();
-        }
-        catch (ParsingException e) {
+        } catch (ParsingException e) {
             assert e.getType().equals(ParsingExceptionType.UNEXPECTED_CHARACTER);
         }
     }

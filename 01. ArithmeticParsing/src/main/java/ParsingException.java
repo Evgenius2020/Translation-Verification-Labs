@@ -1,8 +1,8 @@
-public class ParsingException extends Exception {
+class ParsingException extends Exception {
     private final ParsingExceptionType type;
     private final String message;
 
-    public ParsingExceptionType getType() {
+    ParsingExceptionType getType() {
         return type;
     }
 
@@ -11,7 +11,7 @@ public class ParsingException extends Exception {
         return message;
     }
 
-    public ParsingException(ParsingExceptionType type, String message) {
+    ParsingException(ParsingExceptionType type, String message) {
         this.type = type;
         this.message = message;
     }
