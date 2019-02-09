@@ -20,7 +20,7 @@ class ParserTests {
         lexer = new Lexer(new ByteArrayInputStream("(2)(2)".getBytes()));
         parser = new Parser(lexer);
         try {
-            parser.parseAtom();
+            parser.parseExpr();
         } catch (ParsingException e) {
             assert e.getType().equals(ParsingExceptionType.UNEXPECTED_LEXEME);
         }
@@ -32,6 +32,42 @@ class ParserTests {
         lexer = new Lexer(new ByteArrayInputStream("(-2 + 4)^(7 + 3 - 5)".getBytes()));
         parser = new Parser(lexer);
         assert 32 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("2 + 2 * 2".getBytes()));
+        parser = new Parser(lexer);
+        assert 6 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("((10 + 3*5)/5^2 + -4)^4".getBytes()));
+        parser = new Parser(lexer);
+        assert 81 == parser.parseExpr();
+
+        lexer = new Lexer(new ByteArrayInputStream("2 ^ (1+2+".getBytes()));
+        parser = new Parser(lexer);
+        try {
+            parser.parseExpr();
+        } catch (ParsingException e) {
+            assert e.getType().equals(ParsingExceptionType.UNEXPECTED_LEXEME);
+        }
+    }
+
+    @Test
+    void parseTerm() throws IOException, ParsingException, ArithmeticException {
+        Lexer lexer;
+        Parser parser;
+
+        lexer = new Lexer(new ByteArrayInputStream("2 * 2 * 2 / 2".getBytes()));
+        parser = new Parser(lexer);
+        assert 4 == parser.parseTerm();
+
+        lexer = new Lexer(new ByteArrayInputStream("2 * 2 * 2 / 0".getBytes()));
+        parser = new Parser(lexer);
+        boolean throwsArithmeticException = false;
+        try {
+            parser.parseTerm();
+        } catch (ArithmeticException e) {
+            throwsArithmeticException = true;
+        }
+        assert throwsArithmeticException;
     }
 
     @Test

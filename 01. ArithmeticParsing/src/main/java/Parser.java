@@ -16,15 +16,27 @@ class Parser {
     }
 
     long parseExpr() throws IOException, ParsingException {
-        long temp = parseFactor();
+        long value = parseTerm();
         while ((current.type == LexemeType.PLUS) || (current.type == LexemeType.MINUS)) {
             var current = getCurrentAndUpdate();
             if (current.type == LexemeType.PLUS)
-                temp += parseFactor();
+                value += parseTerm();
             else
-                temp -= parseFactor();
+                value -= parseTerm();
         }
-        return temp;
+        return value;
+    }
+
+    long parseTerm() throws IOException, ParsingException, ArithmeticException {
+        long value = parseFactor();
+        while ((current.type == LexemeType.MULTIPLY) || (current.type == LexemeType.DIVIDE)) {
+            var current = getCurrentAndUpdate();
+            if (current.type == LexemeType.MULTIPLY)
+                value *= parseFactor();
+            else
+                value /= parseFactor();
+        }
+        return value;
     }
 
     long parseFactor() throws IOException, ParsingException {
