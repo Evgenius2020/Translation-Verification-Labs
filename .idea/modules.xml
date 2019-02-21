@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/01. ArithmeticParsing/01. ArithmeticParsing.iml" filepath="$PROJECT_DIR$/01. ArithmeticParsing/01. ArithmeticParsing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02. RecognizingStateMachine/02. RecognizingStateMachine.iml" filepath="$PROJECT_DIR$/02. RecognizingStateMachine/02. RecognizingStateMachine.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Translation-Verification-Labs.iml" filepath="$PROJECT_DIR$/.idea/Translation-Verification-Labs.iml" />
     </modules>
   </component>

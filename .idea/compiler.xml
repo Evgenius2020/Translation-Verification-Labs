@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="01. ArithmeticParsing" />
+        <module name="02. RecognizingStateMachine" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="01. ArithmeticParsing" target="11" />
+      <module name="02. RecognizingStateMachine" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

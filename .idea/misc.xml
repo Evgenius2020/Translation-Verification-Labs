@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/01. ArithmeticParser/pom.xml" />
+        <option value="$PROJECT_DIR$/02. RecognizingStateMachine/pom.xml" />
       </list>
     </option>
   </component>
