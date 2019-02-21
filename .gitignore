@@ -3,7 +3,6 @@
 .idea/usage.statistics.xml
 .idea/tasks.xml
 .idea/libraries
-.idea/modules.xml
-*.iml
+.idea/uiDesigner.xml
 
 target/
