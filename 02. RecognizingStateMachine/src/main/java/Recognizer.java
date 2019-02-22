@@ -2,16 +2,29 @@ import java.io.*;
 
 public class Recognizer {
     public static void main(String[] args) throws IOException {
-        if (args.length < 2)
-            throw new IllegalArgumentException("Usage: Recognizer <program_filename> <string_filename>");
+        if (args.length < 2) {
+            System.err.println("Usage: Recognizer <program_filename> <string_filename>");
+            return;
+        }
+
         File programFile = new File(args[0]);
         if (!programFile.exists()) {
-            throw new FileNotFoundException(args[0]);
+            System.out.println(String.format("File %s is not exist", programFile.getName()));
+            return;
         }
-        StateMachine stateMachine = new StateMachine(new BufferedReader(new FileReader(programFile)));
+
+        StateMachine stateMachine;
+        try {
+             stateMachine = new StateMachine(new BufferedReader(new FileReader(programFile)));
+        } catch (Exception e) {
+            System.err.println("Failed to read program file");
+            return;
+        }
+
         File stringFile = new File(args[1]);
         if (!stringFile.exists()) {
-            throw new FileNotFoundException(args[1]);
+            System.err.println(String.format("File %s is not exist", stringFile.getName()));
+            return;
         }
         System.out.println(stateMachine.recognize(new FileReader(stringFile)));
     }

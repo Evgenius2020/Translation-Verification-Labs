@@ -46,7 +46,12 @@ class StateMachine {
         int c = reader.read();
         while (c != -1) {
             char currentSymbol = (String.valueOf((char)c)).toLowerCase().charAt(0);
-            currentState = instructions.get(currentState).get(currentSymbol);
+            try {
+                currentState = instructions.get(currentState).get(currentSymbol);
+            }
+            catch (NullPointerException e) {
+                return false;
+            }
             c = reader.read();
         }
 
