@@ -6,13 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="01. ArithmeticParsing" />
         <module name="02. RecognizingStateMachine" />
+        <module name="03. RecognizingNFA" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="01. ArithmeticParsing" target="11" />
       <module name="02. RecognizingStateMachine" target="1.5" />
+      <module name="03. RecognizingNFA" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
